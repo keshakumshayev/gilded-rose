@@ -26,18 +26,26 @@ class GildedRose(object):
                     if item.sell_in > 10:
                         item.sell_in -= 1
                         item.quality += 1
+                        if item.quality >= 50:
+                            item.quality = 50
                     elif item.sell_in > 5:
                         item.sell_in -= 1
                         item.quality += 2
+                        if item.quality >= 50:
+                            item.quality = 50
                     elif item.sell_in > 0:
                         item.sell_in -= 1
                         item.quality += 3
+                        if item.quality >= 50:
+                            item.quality = 50
                     else:
                         item.sell_in -= 1
                         item.quality = 0
                 if item.name == "Aged Brie":
                     item.sell_in -= 1
                     item.quality += 1
+                    if item.quality >= 50:
+                        item.quality = 50
                 if item.name == "Conjured Mana Cake":
                     item.sell_in -= 1
                     item.quality -= 2
