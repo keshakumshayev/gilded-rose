@@ -5,35 +5,42 @@ class GildedRose(object):
     def __init__(self, items):
         self.items = items
 
+    # refactored update_quality to deal with an array of special item names
+    # and modified if statements to deal with each different item on its own
+    # for example the previous code had quality of Backstage passes go up by 1 three times
+    # in different nested if statements if the sell_in was 5 or lower at the time of update_quality
+    # update_quality is NOT CURRENTLY CHECKING FOR MAXIMUM QUALITY OF 50
+
     def update_quality(self):
+        exceptions = ["Backstage passes to a TAFKAL80ETC concert",
+            "Aged Brie",
+            "Sulfuras, Hand of Ragnaros",
+            "Conjured Mana Cake"
+        ]
         for item in self.items:
-            if item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert":
-                if item.quality > 0:
-                    if item.name != "Sulfuras, Hand of Ragnaros":
-                        item.quality = item.quality - 1
+            if item.name not in exceptions:
+                item.sell_in -= 1
+                item.quality -= 1
             else:
-                if item.quality < 50:
-                    item.quality = item.quality + 1
-                    if item.name == "Backstage passes to a TAFKAL80ETC concert":
-                        if item.sell_in < 11:
-                            if item.quality < 50:
-                                item.quality = item.quality + 1
-                        if item.sell_in < 6:
-                            if item.quality < 50:
-                                item.quality = item.quality + 1
-            if item.name != "Sulfuras, Hand of Ragnaros":
-                item.sell_in = item.sell_in - 1
-            if item.sell_in < 0:
-                if item.name != "Aged Brie":
-                    if item.name != "Backstage passes to a TAFKAL80ETC concert":
-                        if item.quality > 0:
-                            if item.name != "Sulfuras, Hand of Ragnaros":
-                                item.quality = item.quality - 1
+                if item.name == "Backstage passes to a TAFKAL80ETC concert":
+                    if item.sell_in > 10:
+                        item.sell_in -= 1
+                        item.quality += 1
+                    elif item.sell_in > 5:
+                        item.sell_in -= 1
+                        item.quality += 2
+                    elif item.sell_in > 0:
+                        item.sell_in -= 1
+                        item.quality += 3
                     else:
-                        item.quality = item.quality - item.quality
-                else:
-                    if item.quality < 50:
-                        item.quality = item.quality + 1
+                        item.sell_in -= 1
+                        item.quality = 0
+                if item.name == "Aged Brie":
+                    item.sell_in -= 1
+                    item.quality += 1
+                if item.name == "Conjured Mana Cake":
+                    item.sell_in -= 1
+                    item.quality -= 2
 
 
 class Item:

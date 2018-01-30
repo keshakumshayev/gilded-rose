@@ -18,19 +18,19 @@ class GildedRoseTest(unittest.TestCase):
         self.assertEquals(0, items[0].quality)
 
     def test_backstage_pass(self):
-        items = [Item("Backstage passes to a TAFKAL80ETC concert",15,20),
-            Item("Backstage passes to a TAFKAL80ETC concert",10,49),
-            Item("Backstage passes to a TAFKAL80ETC concert",5,49),
-            Item("Backstage passes to a TAFKAL80ETC concert",0,49)
+        items = [Item("Backstage passes to a TAFKAL80ETC concert",11,39),
+            Item("Backstage passes to a TAFKAL80ETC concert",10,39),
+            Item("Backstage passes to a TAFKAL80ETC concert",5,39),
+            Item("Backstage passes to a TAFKAL80ETC concert",0,39)
         ]
         gilded_rose = GildedRose(items)
         gilded_rose.update_quality()
-        self.assertEquals(14, items[0].sell_in)
-        self.assertEquals(21, items[0].quality)
+        self.assertEquals(10, items[0].sell_in)
+        self.assertEquals(40, items[0].quality)
         self.assertEquals(9, items[1].sell_in)
-        self.assertEquals(50, items[1].quality)
+        self.assertEquals(41, items[1].quality)
         self.assertEquals(4, items[2].sell_in)
-        self.assertEquals(50, items[2].quality)
+        self.assertEquals(42, items[2].quality)
         self.assertEquals(-1, items[3].sell_in)
         self.assertEquals(0, items[3].quality)
 
@@ -55,6 +55,20 @@ class GildedRoseTest(unittest.TestCase):
         self.assertEquals(2, items[0].sell_in)
         self.assertEquals(4, items[0].quality)
 
+    def test_max_quality(self):
+        items = [
+            Item("Backstage passes to a TAFKAL80ETC concert", 11, 50),
+            Item("Backstage passes to a TAFKAL80ETC concert", 6, 49),
+            Item("Backstage passes to a TAFKAL80ETC concert", 1, 48),
+        ]
+        gilded_rose = GildedRose(items)
+        gilded_rose.update_quality()
+        self.assertEquals(10, items[0].sell_in)
+        self.assertEquals(50, items[0].quality)
+        self.assertEquals(5, items[1].sell_in)
+        self.assertEquals(50, items[1].quality)
+        self.assertEquals(0, items[2].sell_in)
+        self.assertEquals(50, items[2].quality)
 
 
 if __name__ == '__main__':
