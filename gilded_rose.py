@@ -19,41 +19,54 @@ class GildedRose(object):
         ]
         for item in self.items:
             if item.name not in exceptions:
-                item.sell_in -= 1
-                item.quality -= 1 if item.sell_in > 0 else 2
-                if item.quality < 0:
-                    item.quality = 0
+                self.normal_update_quality(item)
             else:
                 if item.name == "Backstage passes to a TAFKAL80ETC concert":
-                    if item.sell_in > 10:
-                        item.sell_in -= 1
-                        item.quality += 1
-                        if item.quality >= 50:
-                            item.quality = 50
-                    elif item.sell_in > 5:
-                        item.sell_in -= 1
-                        item.quality += 2
-                        if item.quality >= 50:
-                            item.quality = 50
-                    elif item.sell_in > 0:
-                        item.sell_in -= 1
-                        item.quality += 3
-                        if item.quality >= 50:
-                            item.quality = 50
-                    else:
-                        item.sell_in -= 1
-                        item.quality = 0
+                    self.backstage_pass_update_quality(item)
                 if item.name == "Aged Brie":
-                    item.sell_in -= 1
-                    item.quality += 1
-                    if item.quality >= 50:
-                        item.quality = 50
+                    self.aged_update_quality(item)
                 if item.name == "Conjured Mana Cake":
-                    item.sell_in -= 1
-                    item.quality -= 2 if item.sell_in > 0 else 4
-                    if item.quality < 0:
-                        item.quality = 0
+                    self.conjured_update_quality(item)
 
+    # THIS METHOD CONTROLS MIN/MAX VALUE OF ITEM QUALITY
+
+    def stop_at_limit(self, item):
+        if item.quality >= 50:
+            item.quality = 50
+        if item.quality < 0:
+            item.quality = 0
+
+    # METHODS FOR DIFFERENT ITEM TYPES BELOW
+
+    def normal_update_quality(self, item):
+        item.sell_in -= 1
+        item.quality -= 1 if item.sell_in > 0 else 2
+        self.stop_at_limit(item)
+
+    def backstage_pass_update_quality(self, item):
+        item.sell_in -= 1
+        if item.sell_in >= 10:
+            item.quality += 1
+        elif item.sell_in >= 5:
+            item.quality += 2
+        elif item.sell_in >= 0:
+            item.quality += 3
+        else:
+            item.quality = 0
+        self.stop_at_limit(item)
+
+    def aged_update_quality(self, item):
+        item.sell_in -= 1
+        item.quality += 1
+        self.stop_at_limit(item)
+
+    def conjured_update_quality(self, item):
+        item.sell_in -= 1
+        item.quality -= 2 if item.sell_in > 0 else 4
+        self.stop_at_limit(item)
+
+# IT WOULD BE NICE TO ADD A TYPE FOR ITEM
+# TO MAKE IT EASIER TO JUST PLUG IN A TYPE FOR update_quality
 
 class Item:
     def __init__(self, name, sell_in, quality):
