@@ -9,7 +9,7 @@ class GildedRose(object):
     # and modified if statements to deal with each different item on its own
     # for example the previous code had quality of Backstage passes go up by 1 three times
     # in different nested if statements if the sell_in was 5 or lower at the time of update_quality
-    # update_quality is NOT CURRENTLY CHECKING FOR MAXIMUM QUALITY OF 50
+    # update_quality is NOT CURRENTLY degrading items faster after sell date
 
     def update_quality(self):
         exceptions = ["Backstage passes to a TAFKAL80ETC concert",
