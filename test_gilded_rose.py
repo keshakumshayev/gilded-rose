@@ -64,14 +64,20 @@ class GildedRoseTest(unittest.TestCase):
         ]
         gilded_rose = GildedRose(items)
         gilded_rose.update_quality()
-        self.assertEquals(10, items[0].sell_in)
         self.assertEquals(50, items[0].quality)
-        self.assertEquals(5, items[1].sell_in)
         self.assertEquals(50, items[1].quality)
-        self.assertEquals(0, items[2].sell_in)
         self.assertEquals(50, items[2].quality)
-        self.assertEquals(-33, items[3].sell_in)
         self.assertEquals(50, items[3].quality)
+
+    def test_min_quality(self):
+        items = [
+            Item("Elixir of the Mongoose", 11, 0),
+            Item("Conjured Mana Cake", 11, 1)
+        ]
+        gilded_rose = GildedRose(items)
+        gilded_rose.update_quality()
+        self.assertEquals(0, items[0].quality)
+        self.assertEquals(0, items[1].quality)
 
 
 if __name__ == '__main__':

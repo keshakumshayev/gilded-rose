@@ -20,7 +20,8 @@ class GildedRose(object):
         for item in self.items:
             if item.name not in exceptions:
                 item.sell_in -= 1
-                item.quality -= 1
+                if item.quality > 0:
+                    item.quality -= 1
             else:
                 if item.name == "Backstage passes to a TAFKAL80ETC concert":
                     if item.sell_in > 10:
@@ -49,6 +50,8 @@ class GildedRose(object):
                 if item.name == "Conjured Mana Cake":
                     item.sell_in -= 1
                     item.quality -= 2
+                    if item.quality < 0:
+                        item.quality = 0
 
 
 class Item:
