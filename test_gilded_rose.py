@@ -79,6 +79,17 @@ class GildedRoseTest(unittest.TestCase):
         self.assertEquals(0, items[0].quality)
         self.assertEquals(0, items[1].quality)
 
+    def test_quality_degradation_after_sell_date(self):
+        items = [
+            Item("Elixir of the Mongoose", 0, 6),
+            Item("Conjured Mana Cake", 0, 6)
+        ]
+        gilded_rose = GildedRose(items)
+        gilded_rose.update_quality()
+        self.assertEquals(4, items[0].quality)
+        self.assertEquals(2, items[1].quality)
+
+
 
 if __name__ == '__main__':
     unittest.main()
